@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $persons = DB::table('person')->offset(0)->limit(30)->get();
+        $persons = DB::table('person')->paginate(20);
  
         //return view('user.index', ['users' => $users]);
         return view('welcome', ['persons' => $persons]);

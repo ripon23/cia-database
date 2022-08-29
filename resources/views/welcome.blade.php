@@ -64,18 +64,15 @@
                 </form>
 
                 <div class="table-responsive datalist_table mt-4">
-                    <div class="d-flex justify-content-end p-3">
-                        <span class="data_count px-5 d-flex align-items-center">6994 people in the list </span> 
-                        <button type="button" id="btn_prev" class="btn btn-next-prev"><i class="fa-solid fa-arrow-left"></i></button>
-                        <span class="data_count px-2 d-flex align-items-center">20 - 40 of 148</span>                    
-                        <button type="button" id="btn_next" class="btn btn-next-prev"><i class="fa-solid fa-arrow-right"></i></button>
+                    <div class="d-flex justify-content-end">
+                        <span class="data_count px-2 d-flex align-items-center">{{ $persons->links('pagination') }}</span>                    
                     </div>    
                     <?php
                     // echo "<pre>";
                     // print_r($persons);
                     // echo "</pre>";
                     ?>
-                    <table id="mytable" class="mt-4 table">
+                    <table id="mytable" class="mt-2 table">
 
                         <thead>
 
@@ -101,64 +98,14 @@
                                 <td><?php echo substr($person->birthday,5,2); ?></td>
                             </tr>
                             @endforeach
-                            <!-- <tr>
-                                <td><input type="checkbox" class="checkthis" /></td>
-                                <td>juozas@bybosas.lt</td>
-                                <td>2</td>
-                                <td><span class="badge rounded-pill bg-light text-dark">Customers</span></td>
-                                <td>Juozas Bybosas</td>
-                                <td>Lithuania</td>
-                                <td>1981</td>
-                                <td>10</td>
-                            </tr>
-
-
-                            <tr>
-                                <td><input type="checkbox" class="checkthis" /></td>
-                                <td>juozas@bybosas.lt</td>
-                                <td>1</td>
-                                <td><span class="badge rounded-pill bg-light text-dark">Customers</span></td>
-                                <td>Lithuania Bybosas</span> </td>
-                                <td>Lithuania</td>
-                                <td>1981</td>
-                                <td>10</td>
-                            </tr>
-
-
-
-                            <tr>
-                                <td><input type="checkbox" class="checkthis" /></td>
-                                <td>juozas@bybosas.lt</td>
-                                <td>4</td>
-                                <td><span class="badge rounded-pill bg-light text-dark">Customers</span></td>
-                                <td>Juozas Bybosas</td>
-                                <td>Lithuania</td>
-                                <td>2011</td>
-                                <td>07</td>
-                            </tr>
-
-
-                            <tr>
-                                <td><input type="checkbox" class="checkthis" /></td>
-                                <td>juozas@bybosas.lt</td>
-                                <td>6</td>
-                                <td><span class="badge rounded-pill bg-light text-dark">Customers</span></td>
-                                <td>Juozas Bybosas</td>
-                                <td>Lithuania</td>
-                                <td>1995</td>
-                                <td>01</td>
-                            </tr> -->
-
+                            
                         </tbody>
 
                     </table>
 
                     <div class="clearfix"></div>
-                    <div class="d-flex justify-content-end p-3">
-                        <span class="data_count px-5 d-flex align-items-center">6994 people in the list </span> 
-                        <button type="button" id="btn_prev" class="btn btn-next-prev"><i class="fa-solid fa-arrow-left"></i></button>
-                        <span class="data_count px-2 d-flex align-items-center">20 - 40 of 148</span>                    
-                        <button type="button" id="btn_next" class="btn btn-next-prev"><i class="fa-solid fa-arrow-right"></i></button>
+                    <div class="d-flex justify-content-end p-3">                         
+                        <span class="data_count px-2 d-flex align-items-center">{{ $persons->links('pagination') }}</span>                    
                     </div>
 
                 </div>
