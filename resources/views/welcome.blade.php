@@ -48,14 +48,14 @@
             <div class="col-md-12">
                 <p class="title1 mt-5 mb-4">Top Secret CIA database</p>
 
-                <form class="row g-3">
+                <form class="row g-3" id="searchform" name="searchform" method="GET">
                     <div class="col-md-2">
                         <label for="birth_year" class="form-label">Birth year</label>
-                        <input type="text" class="form-control filter_field" id="birth_year" placeholder="1955">
+                        <input type="text" class="form-control filter_field" value="{{request()->input('birth_year')}}" name="birth_year" id="birth_year">
                     </div>
                     <div class="col-md-2">
                         <label for="birth_month" class="form-label">Birth month</label>
-                        <input type="text" class="form-control filter_field" id="birth_month" placeholder="12">
+                        <input type="text" class="form-control filter_field" value="{{ request()->input('birth_month') }}" name="birth_month" id="birth_month">
                     </div>
                     <div class="col-md-2">
                         <label for="apply_filter" class="form-label">&nbsp;</label>
@@ -65,7 +65,7 @@
 
                 <div class="table-responsive datalist_table mt-4">
                     <div class="d-flex justify-content-end">
-                        <span class="data_count px-2 d-flex align-items-center">{{ $persons->links('pagination') }}</span>                    
+                        <span class="data_count px-2 d-flex align-items-center">{{ $persons->appends(request()->input())->links('pagination') }}</span>                    
                     </div>    
                     <?php
                     // echo "<pre>";
@@ -105,7 +105,7 @@
 
                     <div class="clearfix"></div>
                     <div class="d-flex justify-content-end p-3">                         
-                        <span class="data_count px-2 d-flex align-items-center">{{ $persons->links('pagination') }}</span>                    
+                        <span class="data_count px-2 d-flex align-items-center">{{ $persons->appends(request()->input())->links('pagination') }}</span>                    
                     </div>
 
                 </div>
