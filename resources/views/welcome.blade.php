@@ -64,14 +64,9 @@
                 </form>
 
                 <div class="table-responsive datalist_table mt-4">
-                    <div class="d-flex justify-content-end">
-                        <span class="data_count px-2 d-flex align-items-center">{{ $persons->appends(request()->input())->links('pagination') }}</span>                    
+                    <div class="d-flex justify-content-end">        
+                        <span class="data_count px-2 d-flex align-items-center">{{ $persons->appends($_GET)->links('pagination') }}</span>                    
                     </div>    
-                    <?php
-                    // echo "<pre>";
-                    // print_r($persons);
-                    // echo "</pre>";
-                    ?>
                     <table id="mytable" class="mt-2 table">
 
                         <thead>
@@ -105,7 +100,7 @@
 
                     <div class="clearfix"></div>
                     <div class="d-flex justify-content-end p-3">                         
-                        <span class="data_count px-2 d-flex align-items-center">{{ $persons->appends(request()->input())->links('pagination') }}</span>                    
+                        <span class="data_count px-2 d-flex align-items-center">{{ $persons->appends($_GET)->links('pagination') }}</span>                   
                     </div>
 
                 </div>
