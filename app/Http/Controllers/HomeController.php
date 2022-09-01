@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 class HomeController extends Controller
 {
     /**
@@ -20,57 +22,57 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        //DB::connection()->enableQueryLog();  // For debug
-        $year = $request->birth_year?$request->birth_year:'';
-        $month = $request->birth_month?$request->birth_month:'';
+        //DB::connection()->enableQueryLog();  // For query execution time debug
+        
+        $cached_expire = 60;        // User choice, cache expire in 60 second
 
-        $page = request()->has('page') ? request()->get('page') : 1;
-        // from user's preferences
-        $perPage = 20;
-
-        /************************ Check in Redis  *******************/
-        if($request->birth_year || $request->birth_month){
-            $redis = app()->make('redis');
-            $redis_birth_year = $redis->get("birth_year");
-            $redis_birth_month = $redis->get("birth_month");
-
-            if($redis_birth_year == $year && $redis_birth_month ==$month){
-                //Cache exist                               
-            }else{
-                // No cache available
-                $redis->set("birth_year", $year,'EX', 60);
-                $redis->set("birth_month", $month, 'EX', 60);
-            }
-                                    
-            // Query in database
+        /************************ Check any filter apply  *******************/
+        if($request->birth_year || $request->birth_month){                                    
+            /****** Query in database first time withour page key ******/
             if($request->birth_year && !$request->birth_month){                               
-                
-                $persons = Cache::remember('persons_year_'.$request->birth_year.'_pp_'. $perPage.'_p_'.$page, 60, function () use ($request, $perPage, $page) {
-                    return DB::table('person')->whereYear('birthday', '=', $request->birth_year)->paginate($perPage, ['*'], 'page', $page);
+                /***** Only YEAR filter *****/
+                $persons = Cache::remember('persons_year_'.$request->birth_year, $cached_expire, function () use ($request) {
+                    return DB::table('person')->whereYear('birthday', '=', $request->birth_year)->get()->toArray();
                 });
                 
             }elseif(!$request->birth_year && $request->birth_month){
-
-                $persons = Cache::remember('persons_month_'.$request->birth_month.'_pp_'. $perPage.'_p_'.$page, 60, function () use ($request, $perPage, $page) {
-                    return DB::table('person')->whereMonth('birthday', '=', $request->birth_month)->paginate($perPage, ['*'], 'page', $page);
+                /***** Only MONTH filter *****/
+                $persons = Cache::remember('persons_month_'.$request->birth_month, $cached_expire, function () use ($request) {
+                    return DB::table('person')->whereMonth('birthday', '=', $request->birth_month)->get()->toArray();
                 });
                                
             }elseif($request->birth_year && $request->birth_month){
-
-                $persons = Cache::remember('persons_year_'.$request->birth_year.'_month_'.$request->birth_month.'_pp_'. $perPage.'_p_'.$page, 60, function () use ($request, $perPage, $page) {
-                    return DB::table('person')->whereYear('birthday', '=', $request->birth_year)->whereMonth('birthday', '=', $request->birth_month)->paginate($perPage, ['*'], 'page', $page);
+                /***** BOTH YEAR & MONTH filter *****/
+                $persons = Cache::remember('persons_year_'.$request->birth_year.'_month_'.$request->birth_month, $cached_expire, function () use ($request) {
+                    return DB::table('person')->whereYear('birthday', '=', $request->birth_year)->whereMonth('birthday', '=', $request->birth_month)->get()->toArray();
                 });
              
             }else{
-
-                $persons = DB::table('person')->paginate($perPage);                    
+                /****** No filter *****/
+                $persons = DB::table('person')->get()->toArray();;                    
             }                
                             
         }else{
-            $persons = DB::table('person')->paginate($perPage);
+            /****** No filter *****/
+            $persons = DB::table('person')->get()->toArray();;
         }        
 
-        //print_r(DB::getQueryLog()); // For debug
-        return view('welcome', ['persons' => $persons]);
+        //print_r(DB::getQueryLog()); // For query execution time debug
+
+        /**** Pagination must retrieve data from Redis cache if it is available. ****/
+        $persons = $this->arrayPaginator($persons, $request); // Paginate the result
+        return view('welcome')->with('persons', $persons);;
     }
+
+    /***** Custom pagination method *****/
+    public function arrayPaginator($array, $request)
+    {
+        $page =  $request->get('page', 1);
+        $perPage = 20;
+        $offset = ($page * $perPage) - $perPage;
+
+        return new LengthAwarePaginator(array_slice($array, $offset, $perPage, true), count($array), $perPage, $page,
+            ['path' => $request->url(), 'query' => $request->query()]);
+    }
+
 }
