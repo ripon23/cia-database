@@ -25,7 +25,7 @@ Run seed PersonTableSeeder for person data
 
 - **[http://localhost/example-app/public/](http://localhost/example-app/public/)**
 
-### Run project
+### Testing
 Debug bar is enable. Please see left bottom of the page. you can use this to test the application.
 ## Developer
 Zahidul Hossein Ripon
