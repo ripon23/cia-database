@@ -15,13 +15,9 @@ use Illuminate\Support\Facades\Redis;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome');
+    // redirect()->route('/home');
+    return redirect('/home');
 });
-
-// Route::get('/', function () {
-//     $redis = app()->make('redis');
-//     $redis->set("key1","RiponTestValue");
-//     return $redis->get("key1");
-// });
 
 Route::get('/home', [HomeController::class, 'index']);

@@ -12,31 +12,9 @@
     <link href="http://fonts.cdnfonts.com/css/roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
-
     <link href="{{asset('/')}}css/style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-        
-        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
-    <!------ Include the above in your HEAD tag ---------->
-
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <!-- <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script> -->
-
-    <!-- Styles -->
-    <style>
-        /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
-        /* html {
-            line-height: 1.15;
-            -webkit-text-size-adjust: 100%
-        }
-
-        body {
-            margin: 0
-        } */
-       
-    </style>
 
 </head>
 
@@ -86,7 +64,7 @@
                                 <td><input type="checkbox" class="checkthis" /></td>
                                 <td>{{ $person->email }}</td>
                                 <td>{{ $person->id }}</td>
-                                <td><span class="badge rounded-pill bg-light text-dark">Customers</span><span class="badge rounded-pill bg-light text-dark">Oldtimer</span> </td>
+                                <td><span class="badge rounded-pill bg-light text-dark">Customers</span></td>
                                 <td>{{ $person->name }}</td>
                                 <td>{{ $person->country }}</td>
                                 <td><?php echo substr($person->birthday,0,4); ?></td>
